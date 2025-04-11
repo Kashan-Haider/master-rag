@@ -2,7 +2,6 @@ import streamlit as st
 import json
 from conditional_chains import get_response, rag_chains
 from user_file_handling import file_handling
-import os
 import nltk
 try:
     nltk.data.find('tokenizers/punkt')
