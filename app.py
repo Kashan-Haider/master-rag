@@ -59,7 +59,7 @@ if page == "Chat Assistant":
 
 elif page == "Manage RAG Chains":
     st.title("Manage RAG Chains")
-    
+
     st.subheader("Existing RAG Chains")
     if not rag_chains:
         st.info("No RAG chains found. Create your first chain below.")
@@ -76,6 +76,7 @@ elif page == "Manage RAG Chains":
                 )
 
     st.subheader("Create New RAG Chain")
+
     with st.form("new_chain_form", clear_on_submit=False):
         chain_name = st.text_input("Chain Name", placeholder="Enter a unique name")
         chain_description = st.text_area(
@@ -104,22 +105,31 @@ elif page == "Manage RAG Chains":
                 with open("rag-chains.json", "w") as file:
                     json.dump(rag_chains, file, indent=4)
                 st.success(f"Chain '{chain_name}' created successfully!")
-                
-                st.subheader("Upload Documents")
-                uploaded_file = st.file_uploader("Choose a text file", type="txt")
 
-                if uploaded_file is not None:
-                    filename = uploaded_file.name
-                    file_content = uploaded_file.read().decode("utf-8")
-                    st.subheader("File Preview")
-                    st.text_area("Content", file_content, height=300)
-                    
-                    if st.button("Process and Index Document"):
-                        with st.spinner("Processing document..."):
-                            response = file_handling(file_content)
-                            if response != True:
-                                st.error("Error processing document")
-                            else:
-                                st.success(f"Document '{filename}' processed and indexed successfully!")
-                                st.balloons()
-                                st.rerun()
+                # ✅ Save state to keep showing uploader after form submit
+                st.session_state["created_chain_name"] = chain_name
+
+    # ✅ Show file uploader if a chain was just created
+    if "created_chain_name" in st.session_state:
+        st.subheader("Upload Documents for: " + st.session_state["created_chain_name"])
+        uploaded_file = st.file_uploader("Choose a text file", type="txt")
+
+        if uploaded_file is not None:
+            filename = uploaded_file.name
+            file_content = uploaded_file.read().decode("utf-8")
+            st.subheader("File Preview")
+            st.text_area("Content", file_content, height=300)
+
+            if st.button("Process and Index Document"):
+                with st.spinner("Processing document..."):
+                    response = file_handling(file_content)
+                    if response != True:
+                        st.error("Error processing document")
+                    else:
+                        st.success(
+                            f"Document '{filename}' processed and indexed successfully!"
+                        )
+                        st.balloons()
+                        # Optionally clear the flag
+                        del st.session_state["created_chain_name"]
+                        st.rerun()

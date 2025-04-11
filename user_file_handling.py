@@ -16,6 +16,7 @@ def file_handling(file_content):
 
         # Add to index
         retriever.add_texts(chunks)
+        print("upserted data")
         return True
 
     except Exception as e:
