@@ -4,7 +4,6 @@ from langchain_community.retrievers import PineconeHybridSearchRetriever
 from pinecone_text.sparse import BM25Encoder
 import pickle
 import os
-import json
 
 
 # Save and load paths
