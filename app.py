@@ -2,19 +2,7 @@ import streamlit as st
 import json
 from conditional_chains import get_response, rag_chains
 from user_file_handling import file_handling
-import nltk
-import os
-
-# Create a directory for NLTK data if it doesn't exist
-nltk_data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nltk_data")
-os.makedirs(nltk_data_dir, exist_ok=True)
-nltk.data.path.append(nltk_data_dir)
-
-# Download the required NLTK resources
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt', download_dir=nltk_data_dir)
+import setup
 
 # Page configuration
 st.set_page_config(
