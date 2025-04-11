@@ -101,27 +101,27 @@ if page == "Chat Assistant":
 
     # In the Chat Assistant page section:
 
-if user_input:
-    # Add user message to chat history
-    st.session_state.chat_history.append({"role": "user", "content": user_input})
+    if user_input:
+        # Add user message to chat history
+        st.session_state.chat_history.append({"role": "user", "content": user_input})
 
-    # Display the chat history (including the new user message)
-    for message in st.session_state.chat_history:
-        with st.chat_message(
-            message["role"], avatar="🧠" if message["role"] == "assistant" else "👤"
-        ):
-            st.write(message["content"])
+        # Display the chat history (including the new user message)
+        for message in st.session_state.chat_history:
+            with st.chat_message(
+                message["role"], avatar="🧠" if message["role"] == "assistant" else "👤"
+            ):
+                st.write(message["content"])
 
-    # Generate the response in a placeholder outside the chat history display
-    with st.spinner("Generating response..."):
-        response = get_response(user_input)
+        # Generate the response in a placeholder outside the chat history display
+        with st.spinner("Generating response..."):
+            response = get_response(user_input)
 
-    # Add the response to chat history
-    st.session_state.chat_history.append({"role": "assistant", "content": response})
+        # Add the response to chat history
+        st.session_state.chat_history.append({"role": "assistant", "content": response})
 
-    # Rerun to refresh the display with the new complete history
-    st.rerun()
-# Manage RAG Chains Page
+        # Rerun to refresh the display with the new complete history
+        st.rerun()
+    # Manage RAG Chains Page
 elif page == "Manage RAG Chains":
     st.markdown(
         "<h1 class='main-header'>Manage RAG Chains</h1>", unsafe_allow_html=True
