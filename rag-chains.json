@@ -1,0 +1,17 @@
+[
+    {
+        "name": "cars",
+        "description": "Helps users find the best second hand car according to their needs, conditions and budget",
+        "prompt": "Suggest best matching cat to the user accorfing to their query and the car details.."
+    },
+    {
+        "name": "medical",
+        "description": "Health-related information, symptoms, diseases, and treatments.",
+        "prompt": "Assist with medical queries including symptoms, conditions, and general healthcare advice."
+    },
+    {
+        "name": "default",
+        "description": "AI assistant for general queries.",
+        "prompt": "Help the user with their query."
+    }
+]
