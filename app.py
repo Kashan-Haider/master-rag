@@ -48,9 +48,10 @@ if page == "Chat Assistant":
 
     if user_input:
         st.session_state.chat_history.append({"role": "user", "content": user_input})
+        st.chat_message("user", avatar="👤").write(user_input)
 
-        with st.spinner("Generating response..."):
-            response = get_response(user_input)
+    with st.spinner("Generating response..."):
+        response = get_response(user_input)
 
         st.session_state.chat_history.append({"role": "assistant", "content": response})
         st.rerun()
