@@ -4,11 +4,11 @@ from conditional_chains import get_response, rag_chains
 from user_file_handling import file_handling
 import os
 import nltk
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
 
-# Force NLTK to look in the home directory for data
-nltk_data_path = os.path.join(os.path.expanduser('~'), 'nltk_data')
-if nltk_data_path not in nltk.data.path:
-    nltk.data.path.insert(0, nltk_data_path)
 
 # Page configuration
 st.set_page_config(
