@@ -3,10 +3,13 @@ import json
 from conditional_chains import get_response, rag_chains
 from user_file_handling import file_handling
 import nltk
+
 try:
-    nltk.data.find('tokenizers/punkt')
+    nltk.data.find('tokenizers/punkt_tab')
 except LookupError:
-    nltk.download('punkt')
+    nltk.download('punkt_tab')
+
+
 
 
 # Page configuration
