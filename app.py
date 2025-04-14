@@ -4,6 +4,7 @@ from conditional_chains import get_response, rag_chains
 from user_file_handling import file_handling
 import nltk
 
+# Ensure required tokenizer is available
 try:
     nltk.data.find("tokenizers/punkt_tab")
 except LookupError:
@@ -20,14 +21,11 @@ with st.sidebar:
     st.title("MASTER RAG")
     st.markdown("---")
     st.subheader("Navigation")
-    page = st.radio(
-        "",
-        ["Chat Assistant", "Manage RAG Chains"],
-        label_visibility="collapsed",
-    )
+    page = st.radio("", ["Chat Assistant", "Manage RAG Chains"], label_visibility="collapsed")
     st.markdown("---")
     st.caption("RAG-powered AI Assistant")
 
+# Initialize chat history
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = [
         {"role": "assistant", "content": "Assalamualaikum! How can I help you?"}
@@ -56,11 +54,11 @@ if page == "Chat Assistant":
         st.session_state.chat_history.append({"role": "assistant", "content": response})
         st.rerun()
 
-
 elif page == "Manage RAG Chains":
     st.title("Manage RAG Chains")
 
     st.subheader("Existing RAG Chains")
+
     if not rag_chains:
         st.info("No RAG chains found. Create your first chain below.")
     else:
@@ -70,9 +68,7 @@ elif page == "Manage RAG Chains":
                 st.markdown("---")
                 st.caption("System Prompt Preview (first 100 chars)")
                 st.text(
-                    chain["prompt"][:100] + "..."
-                    if len(chain["prompt"]) > 100
-                    else chain["prompt"]
+                    chain["prompt"][:100] + "..." if len(chain["prompt"]) > 100 else chain["prompt"]
                 )
 
     st.subheader("Create New RAG Chain")
@@ -83,9 +79,7 @@ elif page == "Manage RAG Chains":
             "Description", placeholder="Describe what this chain handles", height=100
         )
         chain_prompt = st.text_area(
-            "System Prompt",
-            placeholder="Enter the system prompt for this chain",
-            height=200,
+            "System Prompt", placeholder="Enter the system prompt for this chain", height=200
         )
 
         submit_button = st.form_submit_button("Create Chain")
@@ -105,11 +99,8 @@ elif page == "Manage RAG Chains":
                 with open("rag-chains.json", "w") as file:
                     json.dump(rag_chains, file, indent=4)
                 st.success(f"Chain '{chain_name}' created successfully!")
-
-                # ✅ Save state to keep showing uploader after form submit
                 st.session_state["created_chain_name"] = chain_name
 
-    # ✅ Show file uploader if a chain was just created
     if "created_chain_name" in st.session_state:
         st.subheader("Upload Documents for: " + st.session_state["created_chain_name"])
         uploaded_file = st.file_uploader("Choose a text file", type="txt")
@@ -126,10 +117,8 @@ elif page == "Manage RAG Chains":
                     if response != True:
                         st.error("Error processing document")
                     else:
-                        st.success(
-                            f"Document '{filename}' processed and indexed successfully!"
-                        )
+                        st.success(f"Document '{filename}' processed and indexed successfully!")
                         st.balloons()
-                        # Optionally clear the flag
                         del st.session_state["created_chain_name"]
                         st.rerun()
+

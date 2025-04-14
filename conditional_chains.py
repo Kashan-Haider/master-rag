@@ -5,7 +5,7 @@ from retriever import get_retriever
 
 index_name = "test-index"
 
-
+# Identify the best-matching chain for a user input
 def get_category(inputs):
     user_input = inputs["user_input"]
     context = inputs["context"]
@@ -15,9 +15,9 @@ def get_category(inputs):
     print(category.content)
     return {"category": category.content, "user_input": user_input, "context": context}
 
-
 chains = {}
 
+# Build a separate chain for each RAG category
 for entry in rag_chains:
     if entry["name"] != "default":
         prompt = ChatPromptTemplate.from_messages(
@@ -41,7 +41,7 @@ for entry in rag_chains:
             [
                 (
                     "system",
-                    "You are an helpul ai assistant.tell the user that you're not specially trained for it but still you can help them out and then help them",
+                    "You are a helpful AI assistant. Tell the user you're not specifically trained for this, but still offer your best help.",
                 ),
                 ("human", "{query}"),
             ]
@@ -50,7 +50,7 @@ for entry in rag_chains:
     chain = prompt | llm
     chains[entry["name"]] = chain
 
-
+# Route the query to the appropriate chain based on its category
 def route_by_category(inputs):
     category = list({inputs["category"]})[0]
     user_query = inputs["user_input"]
@@ -61,13 +61,14 @@ def route_by_category(inputs):
         )
     return chains["default"].invoke({"query": user_query})
 
-
+# Compose full flow: categorize → route → respond
 full_chain = RunnableLambda(get_category) | RunnableLambda(route_by_category)
 
-
+# Public function to be used for getting LLM response
 def get_response(user_input: str):
     retriever = get_retriever(index_name, 0.7)
     relevant_documents = retriever.invoke(user_input)
     context = [doc.page_content for doc in relevant_documents]
     response = full_chain.invoke({"user_input": user_input, "context": context})
     return response.content
+
