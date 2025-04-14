@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+import time  # Import time module
 from conditional_chains import get_response, rag_chains
 from user_file_handling import file_handling
 import nltk
@@ -119,6 +120,6 @@ elif page == "Manage RAG Chains":
                     else:
                         st.success(f"Document '{filename}' processed and indexed successfully!")
                         st.balloons()
+                        time.sleep(3)  # Delay for 3 seconds before re-running
                         del st.session_state["created_chain_name"]
                         st.rerun()
-

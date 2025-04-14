@@ -1,7 +1,6 @@
 from pinecone_setup import connect_pinecone
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.retrievers import PineconeHybridSearchRetriever
-from pinecone_text.sparse import BM25Encoder
 import pickle
 import os
 
