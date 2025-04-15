@@ -13,30 +13,5 @@
         "name": "default",
         "description": "AI assistant for general queries.",
         "prompt": "Help the user with their query."
-    },
-    {
-        "name": "new",
-        "description": "new",
-        "prompt": "new\n"
-    },
-    {
-        "name": "a",
-        "description": "a",
-        "prompt": "a"
-    },
-    {
-        "name": "v",
-        "description": "v",
-        "prompt": "v"
-    },
-    {
-        "name": "f",
-        "description": "f",
-        "prompt": "f"
-    },
-    {
-        "name": "asd",
-        "description": "asd",
-        "prompt": "asd"
     }
 ]
